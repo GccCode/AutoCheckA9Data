@@ -31,10 +31,10 @@ def GetAsinData(cf,ASIN):
     errStatus = False
     isExists = False
     while isExists == False:
-        #chrome_options = Options()
-        #chrome_options.add_argument("--headless")
-        #browser = webdriver.Chrome(chrome_options=chrome_options)
-        browser = webdriver.Chrome()
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        browser = webdriver.Chrome(chrome_options=chrome_options)
+        #browser = webdriver.Chrome()
         browser.get("http://www.surtime.com")
         browser.find_element_by_id("loginLink").click()
         browser.find_element_by_id("UserName").send_keys(username)
