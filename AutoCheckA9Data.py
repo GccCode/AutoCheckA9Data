@@ -31,17 +31,16 @@ def GetAsinData(cf,ASIN):
     errStatus = False
     isExists = False
     while isExists == False:
-        #browser = webdriver.PhantomJS()
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        browser = webdriver.Chrome(chrome_options=chrome_options)
-        #browser.maximize_window()
-        browser.get("https://www.surtime.com")
+        #chrome_options = Options()
+        #chrome_options.add_argument("--headless")
+        #browser = webdriver.Chrome(chrome_options=chrome_options)
+        browser = webdriver.Chrome()
+        browser.get("http://www.surtime.com")
         browser.find_element_by_id("loginLink").click()
         browser.find_element_by_id("UserName").send_keys(username)
         browser.find_element_by_id("Password").send_keys(password)
         browser.find_element_by_class_name("btn-primary").submit()
-        browser.get("https://www.surtime.com/ASINAnalysisQuery/ASINAnalysisQuery")
+        browser.get("http://www.surtime.com/ASINAnalysisQuery/ASINAnalysisQuery")
         if CheckAsinIfExists(browser, ASIN):
             print(ASIN + " is OK")
             isExists = True
@@ -54,7 +53,7 @@ def GetAsinData(cf,ASIN):
                 browser.find_element_by_id("Country").find_elements_by_tag_name("option")[6].click()
                 browser.find_element_by_id("ASIN").send_keys(ASIN)
                 browser.find_element_by_id("loading3").click()
-                time.sleep(120)
+                time.sleep(90)
                 if errStatus == False:
                     if CheckAsinIfExists(browser, ASIN):
                         print(ASIN + " is OK")
@@ -66,9 +65,9 @@ def GetAsinData(cf,ASIN):
                         isExists = False
                         cf.set("Status", ASIN, "0")
                         cf.write(open('account.inf', 'w'))
-                    browser.quit()
                 else:
                     errStatus = False
+                browser.quit()
             except UnexpectedAlertPresentException:
                 result = EC.alert_is_present()(browser)
                 if result:
